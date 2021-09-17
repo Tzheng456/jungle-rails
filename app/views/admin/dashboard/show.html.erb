@@ -1,2 +1,14 @@
-<h1>Admin::Dashboard#show</h1>
-<p>Find me in app/views/admin/dashboard/show.html.erb</p>
+<h1> Admin Dashboard </h1>
+<table class="table">
+  <tr>
+    <td>Products count</td>
+    <td><%= @productCount %></td>
+    <td><%= link_to 'Take me to Products!', [:admin, :products] %></td>
+  </tr>
+  <br/>
+  <tr>
+    <td>Categories count</td>
+    <td><%= @categoryCount %></td>
+    <td><%= link_to 'Take me to Categories!', :root %></td>
+  </tr>
+</table>
