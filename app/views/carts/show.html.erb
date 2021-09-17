@@ -1,9 +1,10 @@
 <section class="cart-show">
 
   <header class="page-header">
-    <h1>My Cart</h1>
+  <h1>My Cart</h1>
   </header>
-
+  
+  <% unless enhanced_cart.empty? %>
   <div class="panel panel-default items">
     <table class="table table-bordered">
       <thead>
@@ -48,5 +49,9 @@
       <% end %>
     </div>
   </div>
+  <% else %>
+  <h3> Cart is empty! <h3>
+  <%= link_to "Go shopping...", root_path, class: "btn btn-primary" %>
+  <% end %>
 
 </section>
