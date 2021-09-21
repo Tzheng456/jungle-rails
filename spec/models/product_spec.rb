@@ -6,6 +6,7 @@ RSpec.describe Product, type: :model do
     it 'should save a product with four fields set successfully' do
       @category = Category.new(name: "TestCategory")
       @product = Product.create(name: "name", price: 100, quantity: 1, category: @category)
+      @product.save!
       expect(@product).to be_valid
     end
 
