@@ -5,7 +5,7 @@ RSpec.describe User, type: :model do
   describe 'Validations' do
 
     it 'should successfully create a user with all appropriate fields filled in' do
-      @user = User.create(name: "name", email:"1@test.com", password:"123456", password_confirmation: "123456")
+      @user = User.create(name: "name", email:"test@test.com", password:"123456", password_confirmation: "123456")
       expect(@user).to be_valid
     end
 
@@ -51,5 +51,38 @@ RSpec.describe User, type: :model do
       expect(@user.errors.full_messages).to include ("Password is too short (minimum is 6 characters)")
     end
 
+  end
+
+  describe '.authenticate_with_credentials' do
+
+    it 'should allow an email with leading or trailing spaces to log in' do
+      @user = User.create(name: "name2", email:"2@test.com", password:"123456", password_confirmation: "123456")
+      auth_user = User.authenticate_with_credentials("    2@test.com  ", "123456")
+      expect(auth_user).to eq @user
+    end 
+
+    it 'should allow an email with different casing to log in' do
+      @user = User.create(name: "name2", email:"2@test.com", password:"123456", password_confirmation: "123456")
+      auth_user = User.authenticate_with_credentials("2@tEsT.com", "123456")
+      expect(auth_user).to eq @user
+    end 
+
+    it 'should not allow a user to log in with incorrect email' do
+      @user = User.create(name: "name2", email:"2@test.com", password:"123456", password_confirmation: "123456")
+      auth_user = User.authenticate_with_credentials("1111111@test.com", "123456")
+      expect(auth_user).to be_nil
+    end
+
+    it 'should not allow a user to log in with incorrect password' do
+      @user = User.create(name: "name2", email:"2@test.com", password:"123456", password_confirmation: "123456")
+      auth_user = User.authenticate_with_credentials("2@test.com", "11111123456")
+      expect(auth_user).to be_nil
+    end
+
+    it 'should allow a user to log in with the correct email and password' do
+      @user = User.create(name: "name2", email:"2@test.com", password:"123456", password_confirmation: "123456")
+      auth_user = User.authenticate_with_credentials("2@test.com", "123456")
+      expect(auth_user).to eq @user
+    end
   end
 end
